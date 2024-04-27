@@ -5,7 +5,7 @@ services:
       context: "./suggestbot-tg"
       dockerfile: dockerfile
     container_name: suggestbot-tg
-    restart: "no"
+    restart: "always"
     networks:
       - bot-network
     develop:
