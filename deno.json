@@ -32,7 +32,7 @@
       "exclude": ["src/testdata/", "src/fixtures/**/*.ts"]
     },
     "tasks": {
-      "run:production": "deno run --allow-read src/bot.ts",
+      "run:production": "deno run --allow-read --allow-net src/bot.ts",
       "dev": "deno run --allow-all --watch src/bot.ts"
     },
     "imports": {
