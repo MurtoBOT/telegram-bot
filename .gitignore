@@ -1,0 +1,4 @@
+.vscode
+
+# Production env ignore
+.env
