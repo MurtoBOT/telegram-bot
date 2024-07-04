@@ -1,6 +1,9 @@
 import { Bot } from "https://deno.land/x/grammy@v1.26.0/mod.ts";
 import { Command } from "./abstract/command.class.ts";
-import * as BotCommand from "./commands";
+import StartCommand from "./commands/start.command.ts";
+
+import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+const env = await load();
 
 class TGBot {
     bot: Bot;
@@ -12,7 +15,7 @@ class TGBot {
 
     init()
     {
-        this.commands = [new BotCommand.StartCommand(this.bot)];
+        this.commands = [new StartCommand(this.bot)];
         for (const command of this.commands) {
             command.handle();
         }
@@ -21,5 +24,5 @@ class TGBot {
     }
 }
 
-const bot = new TGBot(String(Deno.env.get("BOT_TOKEN")));
+const bot = new TGBot(env["BOT_TOKEN"]);
 bot.init();
