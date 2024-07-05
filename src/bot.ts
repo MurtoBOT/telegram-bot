@@ -47,5 +47,5 @@ class TGBot {
     }
 }
 
-const bot = new TGBot(env["BOT_TOKEN"]);
+const bot = new TGBot(env["TG_TOKEN"]);
 bot.init();
