@@ -1,4 +1,4 @@
-import { Bot, InlineKeyboard } from "https://deno.land/x/grammy@v1.26.0/mod.ts";
+import { Bot, InlineKeyboard, Keyboard } from "https://deno.land/x/grammy@v1.26.0/mod.ts";
 import { Command } from "../abstract/command.class.ts";
 import { BotContext, env } from "../bot.ts";
 
@@ -15,8 +15,19 @@ export default class StartCommand extends Command {
                 username: String(ctx.message?.from.first_name),
                 bot_name: String(env["BOT_NAME"])
             }),
-                { reply_markup: welcomeKeyboard }
+                { 
+                    reply_markup: welcomeKeyboard,
+                    parse_mode: 'HTML'
+                }
             );
+
+            const menuKeyboard = new Keyboard()
+                .text(ctx.translate("button-profile"))
+                .text(ctx.translate("button-channels")).row()
+                .text(ctx.translate("button-suggest"))
+                .resized();
+
+            await ctx.reply(ctx.translate("menu-msg", {}), { reply_markup: menuKeyboard })
         });
     }
 }
