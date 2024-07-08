@@ -42,7 +42,7 @@ class TGBot {
               console.error("Unknown error:", e);
             }
         });
-        
+
         this.bot.start();
     }
 }
