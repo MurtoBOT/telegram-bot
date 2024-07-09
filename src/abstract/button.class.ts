@@ -4,5 +4,5 @@ import { BotContext } from "../bot.ts";
 export abstract class Button {
     constructor(public bot: Bot<BotContext>) {}
 
-    abstract handleCallback(): void;
+    abstract handleClick(): void;
 }
