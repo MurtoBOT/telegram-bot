@@ -1,7 +1,13 @@
-import { Bot, Context, GrammyError, HttpError } from "https://deno.land/x/grammy@v1.26.0/mod.ts";
+import { Bot, Context, GrammyError, HearsContext, HearsMiddleware, HttpError } from "https://deno.land/x/grammy@v1.26.0/mod.ts";
 import { I18n, I18nFlavor } from "https://deno.land/x/grammy_i18n@v1.0.2/mod.ts";
 import { Command } from "./abstract/command.class.ts";
+import { Button } from "./abstract/button.class.ts";
+
 import StartCommand from "./commands/start.command.ts";
+
+import ProfileButton from "./buttons/menu/profile.button.ts";
+import ChannelButton from "./buttons/menu/channel.button.ts";
+import SuggestButton from "./buttons/menu/suggest.button.ts";
 
 import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 export const env = await load();
@@ -17,6 +23,7 @@ class TGBot {
     
     bot: Bot<BotContext>;
     commands: Command[] = [];
+    buttons: Button[] = [];
 
     constructor(botToken : string) {
         this.bot = new Bot<BotContext>(botToken);
@@ -28,6 +35,16 @@ class TGBot {
         this.commands = [new StartCommand(this.bot)];
         for (const command of this.commands) {
             command.handle();
+        }
+
+        this.buttons = [
+            new ProfileButton(this.bot), 
+            new ChannelButton(this.bot),
+            new SuggestButton(this.bot)
+        ];
+        for (const button of this.buttons)
+        {
+            button.handleClick();
         }
 
         this.bot.catch((err) => {
@@ -42,7 +59,7 @@ class TGBot {
               console.error("Unknown error:", e);
             }
         });
-        
+
         this.bot.start();
     }
 }
