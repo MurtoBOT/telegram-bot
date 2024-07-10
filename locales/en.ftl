@@ -18,6 +18,13 @@ menu-msg=Select the button in menu:
 
 button-community=🤝 Join community
 
+## ChatInvite event
+chatinvite-welcome-msg=
+ 👋 Hi everyone, my name is <b>{ $bot_name }</b>
+ Thank you for your invintation in <b>{ $chat_name }</b>
+ 
+ If you want to configure something, tell chat administrator about it!
+
 ## Main menu block
 button-channels=📢 My channels
 button-suggest=✅ Suggest post
