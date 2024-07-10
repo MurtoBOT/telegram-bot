@@ -40,7 +40,7 @@ export default class StartCommand extends Command {
             try {
                 chatInfo = await this.bot.api.getChat(channelId);
             } catch {
-                await ctx.reply(ctx.translate("link-msg-error", { bot_name: env["BOT_NAME"] }), { parse_mode: 'HTML' });
+                await ctx.reply(ctx.translate("link-msg-error-admin", { bot_name: env["BOT_NAME"] }), { parse_mode: 'HTML' });
                 return;
             }
             
