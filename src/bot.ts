@@ -1,4 +1,4 @@
-import { Bot, Context, GrammyError, HearsContext, HearsMiddleware, HttpError } from "https://deno.land/x/grammy@v1.26.0/mod.ts";
+import { Bot, Context, GrammyError, HttpError } from "https://deno.land/x/grammy@v1.26.0/mod.ts";
 import { I18n, I18nFlavor } from "https://deno.land/x/grammy_i18n@v1.0.2/mod.ts";
 import { Command } from "./abstract/command.class.ts";
 import { Button } from "./abstract/button.class.ts";
