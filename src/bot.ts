@@ -2,12 +2,15 @@ import { Bot, Context, GrammyError, HttpError } from "https://deno.land/x/grammy
 import { I18n, I18nFlavor } from "https://deno.land/x/grammy_i18n@v1.0.2/mod.ts";
 import { Command } from "./abstract/command.class.ts";
 import { Button } from "./abstract/button.class.ts";
+import { Event } from "./abstract/event.class.ts";
 
 import StartCommand from "./commands/start.command.ts";
 
 import ProfileButton from "./buttons/menu/profile.button.ts";
 import ChannelButton from "./buttons/menu/channel.button.ts";
 import SuggestButton from "./buttons/menu/suggest.button.ts";
+
+import ChatInviteEvent from "./events/chatinvite.event.ts";
 
 import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 export const env = await load();
@@ -23,6 +26,7 @@ class TGBot {
     
     bot: Bot<BotContext>;
     commands: Command[] = [];
+    events: Event[] = [];
     buttons: Button[] = [];
 
     constructor(botToken : string) {
@@ -32,7 +36,9 @@ class TGBot {
 
     init()
     {
-        this.commands = [new StartCommand(this.bot)];
+        this.commands = [
+            new StartCommand(this.bot)
+        ];
         for (const command of this.commands) {
             command.handle();
         }
@@ -45,6 +51,14 @@ class TGBot {
         for (const button of this.buttons)
         {
             button.handleClick();
+        }
+
+        this.events = [
+            new ChatInviteEvent(this.bot)
+        ];
+        for (const event of this.events)
+        {
+            event.registerEvent();
         }
 
         this.bot.catch((err) => {
