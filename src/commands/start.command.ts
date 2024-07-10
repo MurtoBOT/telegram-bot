@@ -28,35 +28,36 @@ export default class StartCommand extends Command {
                 .text(ctx.translate("button-suggest"))
                 .resized();
 
-            let successLinkFlag : boolean = false;
-
             const argument : string = ctx.match;
-            const channelId : number = Number(argument.replace("tgch_", ""));
+            if (argument.includes("tgch_")) {
+                let successLinkFlag : boolean = false;
 
-            const botInfo = await this.bot.api.getMe();
+                const channelId : number = Number(argument.replace("tgch_", ""));
+                const botInfo = await this.bot.api.getMe();
 
-            /* Some shit happens here, need to fix it in the future */
-            let chatInfo : ChatFullInfo;
-            try {
-                chatInfo = await this.bot.api.getChat(channelId);
-            } catch {
-                await ctx.reply(ctx.translate("link-msg-error-admin", { bot_name: env["BOT_NAME"] }), { parse_mode: 'HTML' });
-                return;
-            }
-            
-            const channelAdminList = await this.bot.api.getChatAdministrators(channelId);
-            channelAdminList.forEach((admin) => {
-                if (admin.user.id == botInfo.id) {
-                    successLinkFlag = true;
+                /* Some shit happens here, need to fix it in the future */
+                let chatInfo : ChatFullInfo;
+                try {
+                    chatInfo = await this.bot.api.getChat(channelId);
+                } catch {
+                    await ctx.reply(ctx.translate("link-msg-error-admin", { bot_name: env["BOT_NAME"] }), { parse_mode: 'HTML' });
                     return;
                 }
-            });
+                
+                const channelAdminList = await this.bot.api.getChatAdministrators(channelId);
+                channelAdminList.forEach((admin) => {
+                    if (admin.user.id == botInfo.id) {
+                        successLinkFlag = true;
+                        return;
+                    }
+                });
 
-            if (successLinkFlag)
-            {
-                await ctx.reply(ctx.translate("link-msg-success", { channel_name: String(chatInfo.title) }), { parse_mode: 'HTML' });
-            } else {
-                await ctx.reply(ctx.translate("link-msg-error", { bot_name: env["BOT_NAME"] }), { parse_mode: 'HTML' });
+                if (successLinkFlag)
+                {
+                    await ctx.reply(ctx.translate("link-msg-success", { channel_name: String(chatInfo.title) }), { parse_mode: 'HTML' });
+                } else {
+                    await ctx.reply(ctx.translate("link-msg-error", { bot_name: env["BOT_NAME"] }), { parse_mode: 'HTML' });
+                }
             }
 
             await ctx.reply(ctx.translate("menu-msg", {}), { reply_markup: menuKeyboard });
