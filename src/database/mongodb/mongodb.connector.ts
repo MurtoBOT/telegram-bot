@@ -1,16 +1,26 @@
 import {
     MongoClient
 } from "https://deno.land/x/mongo@LATEST_VERSION/mod.ts";
-import { env } from '../../bot.ts'
+import IDatabaseCredentials from '../../abstract/db.credentials.interface.ts';
+import DatabaseConnector from '../../abstract/db.connector.class.ts';
 
-export const mongoClient = new MongoClient();
+export default class MongoDbConnector extends DatabaseConnector {
+    mongoClient: MongoClient;
 
-if (env["DB_REMOTE"])
-{
-    await mongoClient.connect(
-      `mongodb+srv://${env["DB_USERNAME"]}:${env["DB_PASSWORD"]}@${env["DB_HOST"]}/${env["DB_NAME"]}?authMechanism=SCRAM-SHA-1`,
-    );
-} else {
-    await mongoClient.connect(`mongodb://${env["DB_HOST"]}:27017`);
+    constructor()
+    {
+        super();
+        this.mongoClient = new MongoClient();
+    }
+
+    async connect(credentials : IDatabaseCredentials) {
+        if (credentials.remoteFlag)
+        {
+            await this.mongoClient.connect(
+                `mongodb+srv://${credentials.username}:${credentials.password}@${credentials.host}/${credentials.basename}?authMechanism=SCRAM-SHA-1`,
+            );
+        } else {
+            await this.mongoClient.connect(`mongodb://${credentials.host}:${credentials.port}`);
+        }
+    }
 }
-

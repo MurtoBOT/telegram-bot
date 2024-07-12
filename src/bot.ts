@@ -4,6 +4,10 @@ import { Command } from "./abstract/command.class.ts";
 import { Button } from "./abstract/button.class.ts";
 import { Event } from "./abstract/event.class.ts";
 
+import DatabaseConnector from './abstract/db.connector.class.ts';
+import IDatabaseCredentials, { DatabaseProviders } from './abstract/db.credentials.interface.ts';
+import MongoDbConnector from './database/mongodb/mongodb.connector.ts';
+
 import StartCommand from "./commands/start.command.ts";
 
 import ProfileButton from "./buttons/menu/profile.button.ts";
@@ -13,6 +17,7 @@ import SuggestButton from "./buttons/menu/suggest.button.ts";
 import ChatInviteEvent from "./events/chatinvite.event.ts";
 
 import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+
 export const env = await load();
 
 export type BotContext = Context & I18nFlavor;
@@ -29,12 +34,25 @@ class TGBot {
     events: Event[] = [];
     buttons: Button[] = [];
 
+    databaseWrapper: DatabaseConnector;
+
     constructor(botToken : string) {
         this.bot = new Bot<BotContext>(botToken);
         this.bot.use(i18n);
     }
 
-    init()
+    connectDatabase(provider : DatabaseProviders, credentials : IDatabaseCredentials) : void {
+        switch (provider)
+        {
+            case DatabaseProviders.mongoDb: {
+                this.databaseWrapper = new MongoDbConnector();
+                this.databaseWrapper.connect(credentials);
+                break;
+            }
+        }
+    }
+
+    init() : void
     {
         this.commands = [
             new StartCommand(this.bot)
@@ -79,4 +97,17 @@ class TGBot {
 }
 
 const bot = new TGBot(env["TG_TOKEN"]);
+
+bot.connectDatabase(
+    DatabaseProviders[env["DB_PROVIDER"] as keyof typeof DatabaseProviders],
+    {
+        host: env["DB_HOST"],
+        username: env["DB_USERNAME"],
+        password: env["DB_PASSWORD"],
+        basename: env["DB_NAME"],
+        port: env["DB_PORT"],
+
+        remoteFlag: Boolean(env["DB_REMOTE"])
+    } as IDatabaseCredentials
+);
 bot.init();
