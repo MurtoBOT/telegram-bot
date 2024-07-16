@@ -15,6 +15,7 @@ import ChannelButton from "./buttons/menu/channel.button.ts";
 import SuggestButton from "./buttons/menu/suggest.button.ts";
 
 import ChatInviteEvent from "./events/chatinvite.event.ts";
+import ChannelAddEvent from './events/channeladd.event.ts';
 
 import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 
@@ -72,7 +73,8 @@ class TGBot {
         }
 
         this.events = [
-            new ChatInviteEvent(this.bot)
+            new ChatInviteEvent(this.bot),
+            new ChannelAddEvent(this.bot)
         ];
         for (const event of this.events)
         {

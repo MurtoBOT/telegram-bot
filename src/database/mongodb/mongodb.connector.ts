@@ -1,6 +1,6 @@
 import {
     MongoClient
-} from "https://deno.land/x/mongo@LATEST_VERSION/mod.ts";
+} from "https://deno.land/x/mongo@v0.33.0/mod.ts";
 import IDatabaseCredentials from '../../abstract/db.credentials.interface.ts';
 import DatabaseConnector from '../../abstract/db.connector.class.ts';
 
