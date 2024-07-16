@@ -5,7 +5,7 @@
 <p align="center">
   <img src="https://github.com/MurtoBOT/telegram-bot/actions/workflows/deploy.yml/badge.svg">
   <img alt="Opened Issues" src="https://img.shields.io/github/issues/MurtoBOT/telegram-bot?logoColor=%2338E500&color=%2338E500">
-  <img alt="Donation badge" src="https://img.shields.io/badge/Donate-8A2BE2?logo=githubsponsors&link=https%3A%2F%2Fdonationalerts.com%2Fr%2Ffet1sov">
+  <a href="https://donationalerts.com/r/fet1sov"><img alt="Donation badge" src="https://img.shields.io/badge/Donate-8A2BE2?logo=githubsponsors"></a>
 </p>
 
 # MurtoBOT ![image](https://github.com/user-attachments/assets/5b5f18b5-9d7e-461c-8d47-f9f2eaaa504e)
