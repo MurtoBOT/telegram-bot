@@ -14,7 +14,7 @@ export default class ChannelAddEvent extends Event {
                 && ctx.update.my_chat_member.chat.type == "channel"
             )
             {
-                this.bot.api.sendMessage(ctx.update.my_chat_member.from.id, ctx.translate("channelinvite-welcome-msg", {  }));
+                this.bot.api.sendMessage(ctx.update.my_chat_member.from.id, ctx.translate("channelinvite-welcome-msg", { bot_name: env["BOT_NAME"], channel_name: String(ctx.chat.title), suggest_link: "https://t.me/" + this.bot.botInfo.username + "?start=" + String(this.bot.botInfo.id) }), { parse_mode: 'HTML' });
             }
         });
     }
