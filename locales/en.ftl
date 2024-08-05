@@ -25,6 +25,13 @@ chatinvite-welcome-msg=
  
  If you want to configure something, tell chat administrator about it!
 
+channelinvite-welcome-msg=
+ ✅ Bot was successfully linked to <b>{ $channel_name }</b>
+ Now you can continue configure <b>{ $bot_name }</b> for your channel :)
+
+ Your channel post suggestion link: <b>{ $suggest_link }</b>
+ <i>Put it in channel description or other visible for your subscribers</i>
+
 ## Main menu block
 button-channels=📢 My channels
 button-suggest=✅ Suggest post
