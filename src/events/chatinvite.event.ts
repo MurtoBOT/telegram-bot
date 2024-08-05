@@ -9,7 +9,7 @@ export default class ChatInviteEvent extends Event {
 
     registerEvent(): void {
         this.bot.on(":new_chat_members:me", (ctx) => {
-            ctx.reply(ctx.translate("channelinvite-welcome-msg", { bot_name: env["BOT_NAME"], channel_name: String(ctx.chat.title), suggest_link: "https://t.me/" + this.bot.botInfo.username + "?start=" + String(this.bot.botInfo.id) }), { parse_mode: 'HTML' });
+            ctx.reply(ctx.translate("chatinvite-welcome-msg", { bot_name: env["BOT_NAME"], chat_name: String(ctx.chat.title) }), { parse_mode: 'HTML' });
         });
     }
 }
